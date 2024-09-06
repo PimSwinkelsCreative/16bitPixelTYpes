@@ -5,6 +5,7 @@
 
 //TODO: 
 // - HSV color compatibility
+// - update comemnts
 // - Testing
 
 // define the basic color definitions:
@@ -167,9 +168,9 @@ struct RGBColor16 {
     // /// @param colorcode a packed 24 bit color code
     // inline RGBColor16& operator= (const uint32_t colorcode) __attribute__((always_inline))
     // {
-    //     r = (colorcode >> 16) & 0xFF;
-    //     g = (colorcode >>  8) & 0xFF;
-    //     b = (colorcode >>  0) & 0xFF;
+    //     r = (colorcode >> 16) & 0xFFFF;
+    //     g = (colorcode >>  8) & 0xFFFF;
+    //     b = (colorcode >>  0) & 0xFFFF;
     //     return *this;
     // }
 
@@ -211,7 +212,7 @@ struct RGBColor16 {
     //     return *this;
     // }
 
-    /// Add one RGBColor16 to another, saturating at 0xFF for each channel
+    /// Add one RGBColor16 to another, saturating at 0xFFFF for each channel
     inline RGBColor16& operator+=(const RGBColor16& rhs)
     {
         r = constrain(r + rhs.r, 0, 0xFFFF);
@@ -220,7 +221,7 @@ struct RGBColor16 {
         return *this;
     }
 
-    /// Add a constant to each channel, saturating at 0xFF.
+    /// Add a constant to each channel, saturating at 0xFFFF.
     /// @note This is NOT an operator+= overload because the compiler
     /// can't usefully decide when it's being passed a 32-bit
     /// constant (e.g. RGBColor16::Red) and an 8-bit one (RGBColor16::Blue)
@@ -268,7 +269,7 @@ struct RGBColor16 {
         return retval;
     }
 
-    /// Add a constant of '1' from each channel, saturating at 0xFF
+    /// Add a constant of '1' from each channel, saturating at 0xFFFF
     inline RGBColor16& operator++() __attribute__((always_inline))
     {
         addToRGB(1);
@@ -302,7 +303,7 @@ struct RGBColor16 {
     }
 
     /// Multiply each of the channels by a constant,
-    /// saturating each channel at 0xFF.
+    /// saturating each channel at 0xFFFF.
     inline RGBColor16& operator*=(uint16_t d)
     {
         r = constrain(r * d, 0, 0xFFFF);
@@ -358,7 +359,7 @@ struct RGBColor16 {
     }
 };
 
-/// Representation of an RGB pixel (Red, Green, Blue)
+/// Representation of an RGBW pixel (Red, Green, Blue, White
 struct RGBWColor16 {
     union {
         struct {
@@ -379,7 +380,7 @@ struct RGBWColor16 {
                 uint16_t white; ///< @copydoc b
             };
         };
-        /// Access the red, green, and blue data as an array.
+        /// Access the red, green, blue and white data as an array.
         /// Where:
         /// * `raw[0]` is the red value
         /// * `raw[1]` is the green value
@@ -389,7 +390,7 @@ struct RGBWColor16 {
     };
 
     /// Array access operator to index into the RGBWColor16 object
-    /// @param x the index to retrieve (0-2)
+    /// @param x the index to retrieve (0-3)
     /// @returns the RGBWColor16::raw value for the given index
     inline uint16_t& operator[](uint16_t x) __attribute__((always_inline))
     {
@@ -397,7 +398,7 @@ struct RGBWColor16 {
     }
 
     /// Array access operator to index into the RGBWColor16 object
-    /// @param x the index to retrieve (0-2)
+    /// @param x the index to retrieve (0-3)
     /// @returns the RGBWColor16::raw value for the given index
     inline const uint16_t& operator[](uint16_t x) const __attribute__((always_inline))
     {
@@ -408,7 +409,7 @@ struct RGBWColor16 {
     /// @warning Default values are UNITIALIZED!
     inline RGBWColor16() __attribute__((always_inline)) = default;
 
-    /// Allow construction from red, green, and blue
+    /// Allow construction from red, green, blue and white
     /// @param ir input red value
     /// @param ig input green value
     /// @param ib input blue value
@@ -430,13 +431,13 @@ struct RGBWColor16 {
     // /// @param colorcode a packed 24 bit color code
     // inline RGBWColor16& operator= (const uint32_t colorcode) __attribute__((always_inline))
     // {
-    //     r = (colorcode >> 16) & 0xFF;
-    //     g = (colorcode >>  8) & 0xFF;
-    //     b = (colorcode >>  0) & 0xFF;
+    //     r = (colorcode >> 16) & 0xFFFF;
+    //     g = (colorcode >>  8) & 0xFFFF;
+    //     b = (colorcode >>  0) & 0xFFFF;
     //     return *this;
     // }
 
-    /// Allow assignment from red, green, and blue
+    /// Allow assignment from red, green, blue and white
     /// @param nr new red value
     /// @param ng new green value
     /// @param nb new blue value
@@ -476,7 +477,7 @@ struct RGBWColor16 {
     //     return *this;
     // }
 
-    /// Add one RGBWColor16 to another, saturating at 0xFF for each channel
+    /// Add one RGBWColor16 to another, saturating at 0xFFFF for each channel
     inline RGBWColor16& operator+=(const RGBWColor16& rhs)
     {
         r = constrain(r + rhs.r, 0, 0xFFFF);
@@ -486,7 +487,7 @@ struct RGBWColor16 {
         return *this;
     }
 
-    /// Add a constant to each channel, saturating at 0xFF.
+    /// Add a constant to each channel, saturating at 0xFFFF.
     /// @note This is NOT an operator+= overload because the compiler
     /// can't usefully decide when it's being passed a 32-bit
     /// constant (e.g. RGBWColor16::Red) and an 8-bit one (RGBWColor16::Blue)
@@ -537,7 +538,7 @@ struct RGBWColor16 {
         return retval;
     }
 
-    /// Add a constant of '1' from each channel, saturating at 0xFF
+    /// Add a constant of '1' from each channel, saturating at 0xFFFF
     inline RGBWColor16& operator++() __attribute__((always_inline))
     {
         addToRGBW(1);
@@ -573,7 +574,7 @@ struct RGBWColor16 {
     }
 
     /// Multiply each of the channels by a constant,
-    /// saturating each channel at 0xFF.
+    /// saturating each channel at 0xFFFF.
     inline RGBWColor16& operator*=(uint16_t d)
     {
         r = constrain(r * d, 0, 0xFFFF);
